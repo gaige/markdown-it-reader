@@ -3,12 +3,13 @@ from pelican.readers import BaseReader
 from pelican.utils import pelican_open
 
 from markdown_it import MarkdownIt
-from mdit_py_plugins.front_matter import front_matter_plugin
 from mdit_py_plugins.footnote import footnote_plugin
+from mdit_py_plugins.deflist import deflist_plugin
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name,guess_lexer
-from pygments.formatters import HtmlFormatter
+from pygments.formatters.html import HtmlFormatter
+
 
 class MDITReader(BaseReader):
     enabled = True
@@ -18,6 +19,7 @@ class MDITReader(BaseReader):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         settings = self.settings['MARKDOWN_IT']
+        # TODO: Do actual configuration
 #        settings.setdefault('extension_configs', {})
 #        settings.setdefault('extensions', [])
 #        for extension in settings['extension_configs'].keys():
@@ -25,7 +27,6 @@ class MDITReader(BaseReader):
 #                settings['extensions'].append(extension)
 #        if 'markdown.extensions.meta' not in settings['extensions']:
 #            settings['extensions'].append('markdown.extensions.meta')
-#        self._source_path = None
 
     def read(self, filename):
         with pelican_open(filename) as fp:
@@ -42,7 +43,9 @@ class MDITReader(BaseReader):
                 content = "\n".join(text[i:])
                 break
 
-        md = MarkdownIt("commonmark").use(front_matter_plugin).use(footnote_plugin).enable('table')
+        # add footnote and deflist plugins, enable tables
+        # add in our processors for links
+        md = MarkdownIt("commonmark").use(footnote_plugin).use(deflist_plugin).enable('table')
 
         def replace_pelican_placeholdlers( original_url) -> str:
             new_url = original_url
@@ -73,22 +76,26 @@ class MDITReader(BaseReader):
             # pass token to default renderer.
             return self.renderToken(tokens, idx, options, env)
 
-
         md.add_render_rule("link_open", render_pelican_link)
         md.add_render_rule("image", render_pelican_image)
 
+        def get_lexer(info, content):
+            if info and info!='':
+                lexer = get_lexer_by_name(info)
+            else:
+                lexer = guess_lexer(content)
+            return lexer
+
         def render_code_inline(self, tokens, idx, options, env):
-            print(f"code type:[{idx}] {tokens[idx]} {tokens[idx].content}")
-            return self.code_inline(tokens, idx, options, env)
+            token = tokens[idx]
+            lexer = get_lexer(token.info, token.content)
+            output = "<code class='codehilite'>"+highlight(token.content, lexer, HtmlFormatter(nowrap=True))+"</code>"
+            return (output)
 
         def render_fence(self, tokens, idx, options, env):
             token = tokens[idx]
-            if token.info and token.info!='':
-                lexer = get_lexer_by_name(token.info)
-            else:
-                lexer = guess_lexer(token.content)
-            output = highlight(token.content, lexer, HtmlFormatter())
-            print(f"fence type:[{idx}] {token} {token.content}")
+            lexer = get_lexer(token.info, token.content)
+            output = highlight(token.content, lexer, HtmlFormatter(cssclass='codehilite',wrapcode=True))
             return (output)
 
         def render_code_block(self, tokens, idx, options, env):
