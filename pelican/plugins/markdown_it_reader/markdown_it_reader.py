@@ -89,10 +89,13 @@ class MDITReader(BaseReader):
         md.add_render_rule("image", render_pelican_image)
 
         def get_lexer(info, content):
-            if info and info != "":
-                lexer = get_lexer_by_name(info)
-            else:
-                lexer = guess_lexer(content)
+            try:
+                if info and info != "":
+                    lexer = get_lexer_by_name(info)
+                else:
+                    lexer = guess_lexer(content)
+            except ClassNotFound:
+                lexer = TextLexer
             return lexer
 
         def render_fence(self, tokens, idx, options, env):
