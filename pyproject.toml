@@ -54,8 +54,8 @@ markdown = ["markdown"]
 
 [tool.autopub]
 project-name = "Markdown-IT reader"
-git-username = "botpub"
-git-email = "botpub@autopub.rocks"
+git-username = "gaige"
+git-email = "gaige@cluetrust.com"
 append-github-contributor = true
 
 [tool.isort]
