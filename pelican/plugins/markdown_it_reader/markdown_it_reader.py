@@ -4,6 +4,8 @@ from mdit_py_plugins.footnote import footnote_plugin
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, guess_lexer
+from pygments.lexers.special import TextLexer
+from pygments.util import ClassNotFound
 
 from pelican import signals
 from pelican.readers import BaseReader
