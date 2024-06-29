@@ -1,7 +1,7 @@
 Markdown-IT reader: A Plugin for Pelican
 ====================================================
 
-[![Build Status](https://img.shields.io/github/workflow/status/gaige/markdown-it-reader/build)](https://github.com/gaige/markdown-it-reader/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/gaige/markdown-it-reader/main.yml?branch=main)](https://github.com/gaige/markdown-it-reader/actions)
 [![PyPI Version](https://img.shields.io/pypi/v/pelican-markdown-it-reader)](https://pypi.org/project/pelican-markdown-it-reader/)
 ![License](https://img.shields.io/pypi/l/pelican-markdown-it-reader?color=blue)
 
