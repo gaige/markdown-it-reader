@@ -35,7 +35,7 @@ markdown = {version = "^3.2.2", optional = true}
 mdit-py-plugins = ">=0.2.8,<0.5.0"
 
 [tool.poetry.dev-dependencies]
-black = {version = "^24.4"}
+black = {version = "^24.8"}
 flake8 = "^5.0"
 flake8-black = "^0.3"
 invoke = "^2.2"
