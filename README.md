@@ -58,8 +58,8 @@ and github actions for release.
 
 To generate a release:
 
-1. `cz bump --dry-run --increment patch --changelog` to verify changes
-2. `cz bump --increment patch --changelog` to finalize
+1. `cz bump --dry-run [--increment patch]` to verify changes
+2. `cz bump [--increment patch]` to finalize
 3. `git push` to send code and `git push <tag>` to send the tag (or the less-safe `--tags`)
 
 
