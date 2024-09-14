@@ -60,6 +60,10 @@ append-github-contributor = true
 [tool.commitizen]
 version_provider = "poetry"
 tag_format = "v$major.$minor.$patch$prerelease"
+update_changelog_on_bump = true
+
+[tool.commitizen.customize]
+#changelog_pattern = "^(feature|bug fix|docs)?(!)?"
 
 [tool.isort]
 # Maintain compatibility with Black
