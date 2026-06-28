@@ -1,3 +1,15 @@
+## v3.0.0 (2026-06-28)
+
+### BREAKING CHANGE
+
+- the reader now parses `---` YAML frontmatter itself and
+depends on PyYAML. Sites that paired it with pelican-yaml-metadata should
+remove that plugin; metadata derived from YAML headers may differ.
+
+### Feat
+
+- parse YAML frontmatter natively in the reader
+
 ## v2.0.4 (2025-10-19)
 
 ## v2.0.3 (2025-10-19)
