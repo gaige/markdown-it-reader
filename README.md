@@ -37,6 +37,35 @@ Once installed it takes over responsibility for reading the following file exten
 By taking over `link_open` and `image` render rules, the plugin handles replacing the
 pelican link placeholders with appropriate `href` items which are then rendered to html.
 
+### Metadata
+
+The reader parses a YAML frontmatter header delimited by `---` (terminated by a
+line of `---` or `...`), for example:
+
+```markdown
+---
+title: My Post
+date: 2021-06-11 10:00
+category: server admin
+tags:
+  - apple
+  - macintosh
+---
+
+Body text...
+```
+
+List-form values (such as `tags`) are supported, and `FORMATTED_FIELDS` (e.g.
+`summary`) are rendered through Markdown-IT as well. Because the reader handles
+YAML frontmatter itself, you do **not** need the `pelican-yaml-metadata` plugin;
+in fact you should remove it, since whichever reader registers last wins the
+Markdown extensions and `yaml-metadata` renders bodies with python-markdown
+(which, among other things, cannot render fenced code blocks nested inside
+lists).
+
+Files without a `---` header fall back to a simple `key: value` metadata parser
+for backwards compatibility.
+
 Contributing
 ------------
 
